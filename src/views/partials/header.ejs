@@ -12,9 +12,18 @@
             <a href="/">
                 <h1 class="font-semibold">NODEJSWITHRENDER</h1>
             </a>
-            <nav>
-                <a href="/login">
-                    <p>Login</p>
-                </a>
+            <nav class="flex gap-5">
+                <% if(user) { %>
+                   <p> <%= user %> </p>
+                   <a href="/logout">
+                        <p>Logout</p>
+                   </a>
+                <% } else{ %>
+                    <a href="/login">
+                        <p>Login</p>
+                    </a>  
+                <% } %>
+                 
+
             </nav>
         </header>

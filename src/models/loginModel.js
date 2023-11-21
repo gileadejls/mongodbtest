@@ -29,7 +29,7 @@ class Login{
                 return 
             }
 
-            this.user = result[0]._id
+            this.user = result[0]
             return true
         }catch(e){console.log(e)}
     }

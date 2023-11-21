@@ -1,5 +1,8 @@
 require('dotenv').config()
 
+//variaveis
+let username = null
+
 // DEPENDENCIAS
 const express = require('express')
 const path = require('path')
@@ -24,14 +27,17 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 //ROTAS ---------------------------------------------------------------------
 
+
 //HOME
 app.get('/', (req, res)=>{
-    res.render('index.ejs')
+    res.render('index.ejs', {user: username})
+
 })
+
 
 //LOGIN
 app.get('/login', (req, res)=>{
-    res.render('login')
+    res.render('login', {user: username})
 })
 
 //HABILITANDO O JSON
@@ -46,8 +52,10 @@ app.post('/login', async (req, res)=>{
         return
     }
 
-    console.log(`Login Efetuado com Sucesso! USUARIO: ${loginRequest.user}`)
-    res.render('index')
+    console.log(`Login Efetuado com Sucesso! USUARIO: ${loginRequest.user._id}`)
+    username = loginRequest.user.nome
+    console.log(`Nome do usuario: ${res.locals.usernome}`)
+    res.redirect('/')
 })
 
 //INICIANDO SERVIDOR
