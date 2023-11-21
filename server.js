@@ -25,6 +25,9 @@ app.set('view engine', 'ejs')
 //ROTA CSS
 app.use(express.static(path.join(__dirname, 'public')));
 
+//HABILITANDO O JSON
+app.use(bodyParser.urlencoded({extended: true}))
+
 //ROTAS ---------------------------------------------------------------------
 
 
@@ -34,14 +37,10 @@ app.get('/', (req, res)=>{
 
 })
 
-
 //LOGIN
 app.get('/login', (req, res)=>{
-    res.render('login', {user: username})
+    res.render('login', {user: username, err: null})
 })
-
-//HABILITANDO O JSON
-app.use(bodyParser.urlencoded({extended: true}))
 
 //LOGIN POST
 app.post('/login', async (req, res)=>{
@@ -49,6 +48,7 @@ app.post('/login', async (req, res)=>{
     const result = await loginRequest.logar()
     if(!result){
         console.log(`Usuario Invalido ${loginRequest.errors}`)
+        res.render('login', {err: loginRequest.errors, user: null})
         return
     }
 
@@ -57,6 +57,9 @@ app.post('/login', async (req, res)=>{
     console.log(`Nome do usuario: ${res.locals.usernome}`)
     res.redirect('/')
 })
+
+//LOGOUT
+
 
 //INICIANDO SERVIDOR
 app.on('ready', ()=>{
